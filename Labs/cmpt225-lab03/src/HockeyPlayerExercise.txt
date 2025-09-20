@@ -1,0 +1,8 @@
+1. Implement a HockeyPlayer class which represents a player.
+2. A player has the following attributes
+    Name
+    Ranking
+    Points
+3. Build an array of 11 players.
+4. Sort array based on their ranking.
+5. Sort array based on their name(alphabetical).

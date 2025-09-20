@@ -1,0 +1,4 @@
+1. Create String Objects with help of new and assign to variables.
+2. See if the references are equal with == operator
+3. See if the objects are equal with equals() method.
+    (Check for equals() method in java.lang.String class and see how it overrides this method)
