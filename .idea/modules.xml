@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/Animals/Animals.iml" filepath="$PROJECT_DIR$/cmpt225-week02/Animals/Animals.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignments/Assignments.iml" filepath="$PROJECT_DIR$/Assignments/Assignments.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/CMPT225.iml" filepath="$PROJECT_DIR$/.idea/CMPT225.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/CommandLine/CommandLine.iml" filepath="$PROJECT_DIR$/cmpt225-week02/CommandLine/CommandLine.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/CompareObjects/CompareObjects.iml" filepath="$PROJECT_DIR$/cmpt225-week02/CompareObjects/CompareObjects.iml" />
@@ -10,9 +11,11 @@
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/FileIO/FileIO.iml" filepath="$PROJECT_DIR$/cmpt225-week02/FileIO/FileIO.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/Generics/Generics.iml" filepath="$PROJECT_DIR$/cmpt225-week02/Generics/Generics.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/GeometricShapes/GeometricShapes.iml" filepath="$PROJECT_DIR$/cmpt225-week02/GeometricShapes/GeometricShapes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Labs/Labs.iml" filepath="$PROJECT_DIR$/Labs/Labs.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/SearchingSorting/SearchingSorting.iml" filepath="$PROJECT_DIR$/cmpt225-week02/SearchingSorting/SearchingSorting.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/Singleton/Singleton.iml" filepath="$PROJECT_DIR$/cmpt225-week02/Singleton/Singleton.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/StaticVars/StaticVars.iml" filepath="$PROJECT_DIR$/cmpt225-week02/StaticVars/StaticVars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignments/cmpt225-a1/cmpt225-a1.iml" filepath="$PROJECT_DIR$/Assignments/cmpt225-a1/cmpt225-a1.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week01/cmpt225-week01.iml" filepath="$PROJECT_DIR$/cmpt225-week01/cmpt225-week01.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week02/cmpt225-week02.iml" filepath="$PROJECT_DIR$/cmpt225-week02/cmpt225-week02.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmpt225-week03/cmpt225-week03.iml" filepath="$PROJECT_DIR$/cmpt225-week03/cmpt225-week03.iml" />
