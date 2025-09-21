@@ -1,5 +1,7 @@
 package integeriterators;
 
+import java.util.NoSuchElementException;
+
 public class RangeIterator implements IntegerIterator {
 
     private final int start;
@@ -51,11 +53,11 @@ public class RangeIterator implements IntegerIterator {
 
 	@Override
 	public Integer next() {
-		if(hasNext()) {
-            current += direction;
-            return current;
+		if(!hasNext()) {
+            throw new NoSuchElementException();
         }
-		return -1;
+        current += direction;
+        return current;
 	}
 	
 	public void reverse() {

@@ -1,5 +1,7 @@
 package integeriterators;
 
+import java.util.NoSuchElementException;
+
 public class PrimeNumbersIterator implements IntegerIterator {
 
     private int direction;
@@ -59,25 +61,15 @@ public class PrimeNumbersIterator implements IntegerIterator {
 	
 	@Override
 	public Integer next() {
-        if (hasNext() && direction == 1) {
-            while (true) {
-                current += direction;
-                if (isPrime(current)) {
-                    return current;
-                }
+        if (!hasNext()) {
+            throw new NoSuchElementException(); // no elements (will only happen on reverse)
+        }
+        while (true) {
+            current += direction;
+            if (isPrime(current)) {
+                return current;
             }
         }
-
-        // Reverse
-        if (hasNext() && direction == -1) {
-            while (true) {
-                current += direction;
-                if (isPrime(current)) {
-                    return current;
-                }
-            }
-        }
-        return 0;
     }
 
 	public void reverse() {
