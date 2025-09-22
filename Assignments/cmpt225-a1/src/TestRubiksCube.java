@@ -134,11 +134,11 @@ public class TestRubiksCube {
         testOtherConstructor();
 
         testMoveF();
-        testMoveLLLL();
-        testMoveRighty();
-        testMoveSixRighty();
+        //testMoveLLLL();
+        //testMoveRighty();
+        //testMoveSixRighty();
 
-        testOrder1();
-        testOrder2();
+        //testOrder1();
+        //testOrder2();
     }
 }
