@@ -118,25 +118,30 @@ public class RubiksCube {
      * @param moves Applies the sequence of moves on the Rubik's Cube
      */
     public void applyMoves(String moves) {
-        switch (moves){
-            case "F":
-                moveFront();
-                break;
-            case "B":
-                moveBack();
-                break;
-            case "R":
-                moveRight();
-                break;
-            case "L":
-                moveLeft();
-                break;
-            case "U":
-                moveUp();
-                break;
-            case  "D":
-                moveDown();
-                break;
+
+        for(int i = 0; i < moves.length(); i++) {
+            char move = moves.charAt(i);
+
+            switch (move) {
+                case 'F':
+                    moveFront();
+                    break;
+                case 'B':
+                    moveBack();
+                    break;
+                case 'R':
+                    moveRight();
+                    break;
+                case 'L':
+                    moveLeft();
+                    break;
+                case 'U':
+                    moveUp();
+                    break;
+                case 'D':
+                    moveDown();
+                    break;
+            }
         }
     }
 
@@ -167,13 +172,142 @@ public class RubiksCube {
         for (int i = 0; i < 3; i++) {
             cube_state[3 + i][6] = temp[i];
         }
+        return;
     }
 
-    public void moveBack(){}
-    public void moveRight(){}
-    public void moveLeft(){}
-    public void moveUp(){}
-    public void moveDown(){}
+    public void moveBack(){
+        char temp[] = new char[3];
+
+        // Save Up top row
+        for (int i = 0; i < 3; i++) {
+            temp[i] = cube_state[0][3 + i];
+        }
+
+        // Right-> up
+        for (int i = 0; i < 3; i++) {
+            cube_state[0][3 + i] = cube_state[3 + i][8];
+        }
+
+        // Down to Right
+        for (int i = 0; i < 3; i++) {
+            cube_state[3 + i][8] = cube_state[8][3+i];
+        }
+
+        // Left to bottom
+        for (int i = 0; i < 3; i++) {
+            cube_state[8][3+i] = cube_state[3+i][0];
+        }
+
+        // Up to Right
+        for (int i = 0; i < 3; i++) {
+            cube_state[3+i][0] = temp[i];
+        }
+        return;
+    }
+
+    public void moveRight(){
+        char[] temp = new char[3];
+
+        for(int i = 0; i < 3; i++) {
+            temp[i] = cube_state[3+i][5];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3+i][5] = cube_state[6+i][5];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[6+i][5] = cube_state[3+i][9];
+        }
+
+        // IF AN ERROR IS TO OCCUR MOST LIKELY RIGHT HERE!
+        for(int i = 0; i < 3; i++) {
+            cube_state[3+i][9] = cube_state[0+i][5];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[0+i][5] = temp[i];
+        }
+        return;
+    }
+
+    public void moveLeft(){
+        char[] temp = new char[3];
+
+        for(int i = 0; i < 3; i++) {
+            temp[i] = cube_state[0+i][3];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[0+i][3] = cube_state[3+i][11];
+        }
+
+        // ERROR MOST LIKELY HERE
+        for(int i = 0; i < 3; i++) {
+            cube_state[3+i][11] = cube_state[6+i][3];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[6+i][3] = cube_state[3+i][3];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3+i][3] = temp[i];
+        }
+        return;
+    }
+
+    public void moveUp(){
+        char[] temp = new char[3];
+
+        for(int i = 0; i < 3; i++) {
+            temp[i] = cube_state[3][6+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3][6+i] = cube_state[3][9+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3][9+i] = cube_state[3][0+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3][0+i] = cube_state[3][3+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3][3+i] = temp[i];
+        }
+        return;
+    }
+
+    public void moveDown(){
+        char[] temp = new char[3];
+
+        for(int i = 0; i < 3; i++) {
+            temp[i] = cube_state[5][0+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[5][0+i] = cube_state[5][9+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[5][9+i] = cube_state[5][6+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[5][6+i] = cube_state[5][3+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[5][3+i] = temp[i];
+        }
+        return;
+    }
+
+
 
     /**
      * returns true if the current state of the Cube is solved,

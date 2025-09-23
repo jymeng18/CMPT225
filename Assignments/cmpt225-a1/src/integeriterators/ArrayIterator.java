@@ -13,6 +13,9 @@ public class ArrayIterator implements IntegerIterator
     private int direction = 1;
 
 	public ArrayIterator(int[] ar) {
+        if(ar == null || ar.length == 0){
+            throw new IllegalArgumentException();
+        }
         this.ar = ar;
 	}
 
