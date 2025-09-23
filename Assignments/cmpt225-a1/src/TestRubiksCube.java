@@ -128,7 +128,7 @@ public class TestRubiksCube {
     // self made
     public static void testMoveBack() {
         RubiksCube cube = new RubiksCube();
-        cube.applyMoves("RU");
+        cube.applyMoves("B");
         String state = cube.toString();
         System.out.println(state);
 

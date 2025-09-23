@@ -148,30 +148,26 @@ public class RubiksCube {
     public void moveFront(){
         char[] temp = new char[3];
 
-        // Save Up bottom row
         for (int i = 0; i < 3; i++) {
-            temp[i] = cube_state[2][3 + i];
+            temp[i] = cube_state[3 + i][6];
         }
 
-        // Up <- Left (reversed)
         for (int i = 0; i < 3; i++) {
-            cube_state[2][3 + i] = cube_state[5 - i][2];
+            cube_state[3+i][6] = cube_state[2][3 + i];
         }
 
-        // Left <- Down
         for (int i = 0; i < 3; i++) {
-            cube_state[3 + i][2] = cube_state[6][3 + i];
+            cube_state[2][3 + i] = cube_state[5 - i ][2];
         }
 
-        // Down <- Right (reversed)
         for (int i = 0; i < 3; i++) {
-            cube_state[6][3 + i] = cube_state[5 - i][6];
+            cube_state[5 - i][2] = cube_state[6][5 - i];
         }
 
-        // Right <- temp (original Up)
         for (int i = 0; i < 3; i++) {
-            cube_state[3 + i][6] = temp[i];
+            cube_state[6][5 - i] = temp[i];
         }
+        rotateClockwise(3, 3);
         return;
     }
 
@@ -190,18 +186,19 @@ public class RubiksCube {
 
         // Down to Right
         for (int i = 0; i < 3; i++) {
-            cube_state[3 + i][8] = cube_state[8][3+i];
+            cube_state[3 + i][8] = cube_state[8][5-i];
         }
 
         // Left to bottom
         for (int i = 0; i < 3; i++) {
-            cube_state[8][3+i] = cube_state[3+i][0];
+            cube_state[8][5-i] = cube_state[5-i][0];
         }
 
         // Up to Right
         for (int i = 0; i < 3; i++) {
-            cube_state[3+i][0] = temp[i];
+            cube_state[5-i][0] = temp[i];
         }
+        rotateClockwise(3, 9);
         return;
     }
 
@@ -217,17 +214,17 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[6+i][5] = cube_state[3+i][9];
+            cube_state[6+i][5] = cube_state[5-i][9];
         }
 
-        // IF AN ERROR IS TO OCCUR MOST LIKELY RIGHT HERE!
         for(int i = 0; i < 3; i++) {
-            cube_state[3+i][9] = cube_state[0+i][5];
+            cube_state[5-i][9] = cube_state[0+i][5];
         }
 
         for(int i = 0; i < 3; i++) {
             cube_state[0+i][5] = temp[i];
         }
+        rotateClockwise(3, 6);
         return;
     }
 
@@ -239,21 +236,21 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[0+i][3] = cube_state[3+i][11];
-        }
-
-        // ERROR MOST LIKELY HERE
-        for(int i = 0; i < 3; i++) {
-            cube_state[3+i][11] = cube_state[6+i][3];
+            cube_state[0+i][3] = cube_state[3+i][3];
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[6+i][3] = cube_state[3+i][3];
+            cube_state[3+i][3] = cube_state[6+i][3];
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[3+i][3] = temp[i];
+            cube_state[6+i][3] = cube_state[3+i][9];
         }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3+i][9] = temp[i];
+        }
+        rotateClockwise(3, 0);
         return;
     }
 
@@ -261,7 +258,11 @@ public class RubiksCube {
         char[] temp = new char[3];
 
         for(int i = 0; i < 3; i++) {
-            temp[i] = cube_state[3][6+i];
+            temp[i] = cube_state[3][3+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[3][3+i] = cube_state[3][6+i];
         }
 
         for(int i = 0; i < 3; i++) {
@@ -273,12 +274,9 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[3][0+i] = cube_state[3][3+i];
+            cube_state[3][0+i] = temp[i];
         }
-
-        for(int i = 0; i < 3; i++) {
-            cube_state[3][3+i] = temp[i];
-        }
+        rotateClockwise(0, 3);
         return;
     }
 
@@ -286,7 +284,11 @@ public class RubiksCube {
         char[] temp = new char[3];
 
         for(int i = 0; i < 3; i++) {
-            temp[i] = cube_state[5][0+i];
+            temp[i] = cube_state[5][3+i];
+        }
+
+        for(int i = 0; i < 3; i++) {
+            cube_state[5][3+i] = cube_state[5][0+i];
         }
 
         for(int i = 0; i < 3; i++) {
@@ -298,16 +300,57 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cube_state[5][6+i] = cube_state[5][3+i];
+            cube_state[5][6+i] = temp[i];
         }
-
-        for(int i = 0; i < 3; i++) {
-            cube_state[5][3+i] = temp[i];
-        }
+        rotateClockwise(6, 3);
         return;
     }
 
+    /**
+     * @param row
+     * @param col
+     *
+     * Attention! We are passing in our starting row, col of our face, this is
+     * found at the top leftt of the face
+     *
+     * Layout: C E C
+     *         E X E
+     *         C E C
+     * C: Corners, E: Edges, X: Middle(Irrelevent, b/c rotating clockwise doesn't affect middle)
+     */
+    private void rotateClockwise(int row, int col) {
+        char temp = cube_state[row][col];
 
+        // Save corners and edges for rotation
+        char[] corners = new char[4];
+        char[] edges = new char[4];
+
+        // Save corners
+        corners[0] = cube_state[row][col];         // top-left
+        corners[1] = cube_state[row][col + 2];     // top-right
+        corners[2] = cube_state[row + 2][col + 2]; // bottom-right
+        corners[3] = cube_state[row + 2][col];     // bottom-left
+
+        // Save edges
+        edges[0] = cube_state[row][col + 1];       // top
+        edges[1] = cube_state[row + 1][col + 2];   // right
+        edges[2] = cube_state[row + 2][col + 1];   // bottom
+        edges[3] = cube_state[row + 1][col];       // left
+
+        // Rotate corners clockwise
+        cube_state[row][col + 2] = corners[0];     // top-left -> top-right bc its clockwise
+        cube_state[row + 2][col + 2] = corners[1]; // top-right -> bottom-right
+        cube_state[row + 2][col] = corners[2];     // bottom-right -> bottom-left
+        cube_state[row][col] = corners[3];         // bottom-left -> top-left
+
+        // Rotate edges clockwise
+        cube_state[row + 1][col + 2] = edges[0];   // top -> right
+        cube_state[row + 2][col + 1] = edges[1];   // right -> bottom
+        cube_state[row + 1][col] = edges[2];       // bottom -> left
+        cube_state[row][col + 1] = edges[3];       // left -> top
+
+        return;
+    }
 
     /**
      * returns true if the current state of the Cube is solved,
