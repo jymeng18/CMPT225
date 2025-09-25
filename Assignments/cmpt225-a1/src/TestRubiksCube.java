@@ -125,14 +125,6 @@ public class TestRubiksCube {
             System.out.println("testOrder2 ERROR");
     }
 
-    // self made
-    public static void testMoveBack() {
-        RubiksCube cube = new RubiksCube();
-        cube.applyMoves("B");
-        String state = cube.toString();
-        System.out.println(state);
-
-    }
 
 
 
@@ -143,12 +135,11 @@ public class TestRubiksCube {
         testOtherConstructor();
 
         testMoveF();
-        testMoveBack();
         testMoveLLLL();
         testMoveRighty();
         testMoveSixRighty();
 
-        //testOrder1();
-        //testOrder2();
+        testOrder1();
+        testOrder2();
     }
 }
