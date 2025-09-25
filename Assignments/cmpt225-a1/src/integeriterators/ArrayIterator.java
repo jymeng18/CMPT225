@@ -1,3 +1,14 @@
+/*
+ * Filename: ArrayIterator.java
+ *
+ * Desc: Iterator for an Array of ints
+ *
+ * Author: Jerry Meng
+ *
+ * Last Modified: Sept 2025
+ */
+
+
 package integeriterators;
 
 import java.util.NoSuchElementException;
@@ -14,46 +25,43 @@ public class ArrayIterator implements IntegerIterator
 
 	public ArrayIterator(int[] ar) {
         if(ar == null || ar.length == 0){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("array must not be null or empty");
         }
         this.ar = ar;
 	}
 
 	@Override
 	public boolean hasNext() {
+
+        // If user reverses at beginning
+        if(iterator == -1){
+            return true;
+        }
+
         if(direction == 1){
-            return (iterator + 1) < ar.length; // Forwards direction
+            return iterator < ar.length - 1; // Forwards direction
         }
         else{
-            return (iterator - 1) >= 0; // Backwards direction
+            return iterator > 0; // Backwards direction
         }
 	}
 	
 	@Override
 	public Integer next() {
-		if(hasNext()){
-            iterator += direction;
-            return ar[iterator];
+		if(!hasNext()){
+;		    throw new NoSuchElementException();
         }
-		throw new NoSuchElementException();
+
+        if(iterator == -1){
+            iterator = 0; // first access always gives first element
+        }
+        else{
+            iterator += direction;
+        }
+        return ar[iterator];
 	}
 	
 	public void reverse() {
-        if (direction == 1) {
-            direction = -1;
-        }
-        else{
-            direction = 1;
-        }
-
-        // User reverses before calling next()
-        if(iterator == -1 && direction == -1){
-            iterator = ar.length;
-        }
-
-        // Handles user reverses multiple times before calling next()
-        else if(iterator == ar.length && direction == 1){
-            iterator = -1;
-        }
+        direction *= -1;
     }
 }

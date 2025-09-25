@@ -20,7 +20,7 @@ public class PrimeNumbersIterator implements IntegerIterator {
      */
 	public PrimeNumbersIterator(int n) {
         if(n <= 0){
-            throw new IllegalArgumentException("Invalid args");
+            throw new IllegalArgumentException("n must be > 0");
         }
         this.current = 1;
         this.direction = 1;
@@ -31,7 +31,7 @@ public class PrimeNumbersIterator implements IntegerIterator {
         }
 	}
 
-    public boolean isPrime(int num){
+    public static boolean isPrime(int num){
         if(num <= 1){
             return false;
         }
