@@ -128,7 +128,6 @@ public class TestRubiksCube {
 
 
 
-
     public static void main(String[] args) {
 
         testDefaultConstructor();

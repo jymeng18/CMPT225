@@ -1,7 +1,5 @@
 import integeriterators.*;
 
-import java.util.FormatterClosedException;
-
 
 public class TestIterators {
 
@@ -46,7 +44,7 @@ public class TestIterators {
             }
         }
 
-        for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             if (!iter.hasNext() || iter.next() != ans[i]) {
                 System.out.println("testArrayIterator2 ERROR in iteration " + i);
                 return;
