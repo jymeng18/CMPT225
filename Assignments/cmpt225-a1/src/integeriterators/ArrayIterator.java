@@ -49,7 +49,7 @@ public class ArrayIterator implements IntegerIterator
 	@Override
 	public Integer next() {
 		if(!hasNext()){
-;		    throw new NoSuchElementException();
+		    throw new NoSuchElementException();
         }
 
         if(iterator == -1){

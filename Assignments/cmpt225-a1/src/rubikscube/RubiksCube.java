@@ -83,15 +83,13 @@ public class RubiksCube {
 
         // Make a copy
         for(int row = 0; row < cubeState.length; row++){
-            for(int col = 0; col < cubeState[row].length; col++){
-                this.cubeInit[row][col] = cubeState[row][col];
-            }
+            System.arraycopy(cubeState[row], 0, this.cubeInit[row], 0, cubeState[row].length);
         }
     }
 
     /**
-     * @param fileName
-     * @throws IOException
+     * @param fileName file to read from
+     * @throws IOException If file is not read properly
      * @throws IncorrectFormatException Creates a Rubik's Cube from the description in fileName
      */
     public RubiksCube(String fileName) throws IOException, IncorrectFormatException {
@@ -129,9 +127,7 @@ public class RubiksCube {
 
         // Make a copy
         for(int row = 0; row < cubeState.length; row++){
-            for(int col = 0; col < cubeState[row].length; col++){
-                this.cubeInit[row][col] = cubeState[row][col];
-            }
+            System.arraycopy(cubeState[row], 0, this.cubeInit[row], 0, cubeState[row].length);
         }
 
         input.close();
@@ -191,16 +187,13 @@ public class RubiksCube {
             cubeState[6][5 - i] = temp[i];
         }
         rotateClockwise(3, 3);
-        return;
     }
 
     public void moveBack(){
-        char temp[] = new char[3];
+        char[] temp = new char[3];
 
         // Save Up top row
-        for (int i = 0; i < 3; i++) {
-            temp[i] = cubeState[0][3 + i];
-        }
+        System.arraycopy(cubeState[0], 3, temp, 0, 3);
 
         // Right-> up
         for (int i = 0; i < 3; i++) {
@@ -222,7 +215,6 @@ public class RubiksCube {
             cubeState[5-i][0] = temp[i];
         }
         rotateClockwise(3, 9);
-        return;
     }
 
     public void moveRight(){
@@ -241,25 +233,24 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cubeState[5-i][9] = cubeState[0+i][5];
+            cubeState[5-i][9] = cubeState[i][5];
         }
 
         for(int i = 0; i < 3; i++) {
-            cubeState[0+i][5] = temp[i];
+            cubeState[i][5] = temp[i];
         }
         rotateClockwise(3, 6);
-        return;
     }
 
     public void moveLeft(){
         char[] temp = new char[3];
 
         for(int i = 0; i < 3; i++) {
-            temp[i] = cubeState[0+i][3];
+            temp[i] = cubeState[i][3];
         }
 
         for(int i = 0; i < 3; i++) {
-            cubeState[0+i][3] = cubeState[3+i][3];
+            cubeState[i][3] = cubeState[3+i][3];
         }
 
         for(int i = 0; i < 3; i++) {
@@ -274,15 +265,12 @@ public class RubiksCube {
             cubeState[3+i][9] = temp[i];
         }
         rotateClockwise(3, 0);
-        return;
     }
 
     public void moveUp(){
         char[] temp = new char[3];
 
-        for(int i = 0; i < 3; i++) {
-            temp[i] = cubeState[3][3+i];
-        }
+        System.arraycopy(cubeState[3], 3, temp, 0, 3);
 
         for(int i = 0; i < 3; i++) {
             cubeState[3][3+i] = cubeState[3][6+i];
@@ -293,56 +281,44 @@ public class RubiksCube {
         }
 
         for(int i = 0; i < 3; i++) {
-            cubeState[3][9+i] = cubeState[3][0+i];
+            cubeState[3][9+i] = cubeState[3][i];
         }
 
-        for(int i = 0; i < 3; i++) {
-            cubeState[3][0+i] = temp[i];
-        }
+        System.arraycopy(temp, 0, cubeState[3], 0, 3);
         rotateClockwise(0, 3);
-        return;
     }
 
     public void moveDown(){
         char[] temp = new char[3];
 
+        System.arraycopy(cubeState[5], 3, temp, 0, 3);
+
         for(int i = 0; i < 3; i++) {
-            temp[i] = cubeState[5][3+i];
+            cubeState[5][3+i] = cubeState[5][i];
         }
 
         for(int i = 0; i < 3; i++) {
-            cubeState[5][3+i] = cubeState[5][0+i];
-        }
-
-        for(int i = 0; i < 3; i++) {
-            cubeState[5][0+i] = cubeState[5][9+i];
+            cubeState[5][i] = cubeState[5][9+i];
         }
 
         for(int i = 0; i < 3; i++) {
             cubeState[5][9+i] = cubeState[5][6+i];
         }
 
-        for(int i = 0; i < 3; i++) {
-            cubeState[5][6+i] = temp[i];
-        }
+        System.arraycopy(temp, 0, cubeState[5], 6, 3);
         rotateClockwise(6, 3);
-        return;
     }
 
     /**
-     * @param row
-     * @param col
-     *
+     * @param row Top left y
+     * @param col Top left x
      * Attention! We are passing in our starting row, col of our face, this is
      * found at the top leftt of the face
-     *
      * Layout: C E C
      *         E X E
-     *         C E C
-     * C: Corners, E: Edges, X: Middle(Irrelevent, b/c rotating clockwise doesn't affect middle)
+     *         C E C     * : Corners, E: Edges, X: Middle(Irrelevant, b/c rotating clockwise doesn't affect middle)
      */
     private void rotateClockwise(int row, int col) {
-        char temp = cubeState[row][col];
 
         // Save corners and edges for rotation
         char[] corners = new char[4];
@@ -372,7 +348,6 @@ public class RubiksCube {
         cubeState[row + 1][col] = edges[2];       // bottom -> left
         cubeState[row][col + 1] = edges[3];       // left -> top
 
-        return;
     }
 
     /**
@@ -435,7 +410,7 @@ public class RubiksCube {
 
     /**
      *
-     * @param moves
+     * @param moves Applied moves to Cube
      * @return the order of the sequence of moves
      */
     public static int order(String moves) {
