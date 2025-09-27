@@ -1,0 +1,21 @@
+Implement the following functions in basicdatastructures/TestingStack.java:
+
+
+public static <T> boolean areEqual(Stack<T> s1, Stack<T> s2)
+* Checks if the two stacks have the same items in the same order
+* Compare two objects using .equals() method
+
+
+public static <T> void reverseStack(Stack<T> s)
+* reverses the stack
+
+
+public static <T> Stack<T> cloneStack(Stack<T> orig)
+* creates a copy of the orig
+* when the function returns, orig must be in 
+* the same state as it was originally 
+
+
+public static <T> void swapStacks(Stack<T> s1, Stack<T> s2)
+* swaps the content of s1 and s2
+
