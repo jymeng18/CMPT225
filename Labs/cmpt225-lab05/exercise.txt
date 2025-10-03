@@ -1,0 +1,33 @@
+The topic of today's lab is measuring running time of algorithms.
+
+The lab assignment today contains 3 files:
+
+ComparePolyTime.java
+- It contains functions with different running times.
+SortingAlgs.java
+- It uses three sorting algorithms (Insertion sort, Merge sort, Quick sort using by java.util.Arrays)
+Fib.java
+- It contains a naive recursive function that computes the n'th Fibonacci number.
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+For each of the 3 files do:
+- Run them and measure the running time
+- Change the inputs to the functions, and see how it affects the running time
+
+- Write a faster version of Fib that will work on imputs up to n=80 under 0.1 sec
+
+Explore different way to measure the running time in Java:
+https://www.tutorialspoint.com/how-to-measure-execution-time-for-a-java-method
+- use java.time.Instant and java.time.Duration interface
+
+*********************
+A quick calculation:
+*********************
+A typical laptop performs ~ 10^9 operation per second.
+This means
+- for linear time algorithms we can support inputs up to 10^8 or 10^9
+- for quadratic time algorithms we can support inputs up to 10^4 or 10^5
+- for cubic time algorithms we can support inputs up to 10^3, but not much more than that
+- what about exponential time algorithms? E.g. recursive function computing Fibonacci?

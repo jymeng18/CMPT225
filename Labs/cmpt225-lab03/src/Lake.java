@@ -8,7 +8,7 @@ public class Lake implements Comparable<Lake>{
 
     @Override
     public int compareTo(Lake o){
-        return ((Integer)this.area).compareTo(o.area);
+        return this.name.compareTo(o.name);
     }
 
     @Override
