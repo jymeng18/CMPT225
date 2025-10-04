@@ -18,7 +18,7 @@ public class TestingStack {
 		printStack(s);
 		s.push(obj);
 		System.out.println(obj);
-		
+
 //		Stack<T> tmpStack = new StackLinkedListBased<T>();
 //		T obj = null;
 //		while (!s.isEmpty()) {
@@ -44,15 +44,64 @@ public class TestingStack {
 	 * the same state as they were originally 
 	 */
 	public static <T> boolean areEqual(Stack<T> s1, Stack<T> s2) {
-		// TODO implement me
-		return false;
+		Stack<T> temp1 = new StackLinkedListBased<T>();
+        Stack<T> temp2 = new StackLinkedListBased<T>();
+        boolean equal = true;
+
+        while(!s1.isEmpty() && !s2.isEmpty()) {
+
+            T item1 = s1.pop();
+            T item2 = s2.pop();
+
+            // Temporarily storing the value to easily restore it
+            temp1.push(item1);
+            temp2.push(item2);
+
+            // Compare value
+            if(!item1.equals(item2)) {
+                equal = false;
+            }
+        }
+
+        // Must have same # of items
+        if(!s1.isEmpty() || !s2.isEmpty()) {
+            equal = false;
+        }
+
+        // Restore stacks s1 s2 to original
+        while(!temp1.isEmpty()){
+            T item1 = temp1.pop();
+            s1.push(item1);
+        }
+        while(!temp2.isEmpty()){
+            T item2 = temp2.pop();
+            s2.push(item2);
+        }
+		return equal;
 	}
 
 	/**
 	 * reverses the stack
 	 */
 	public static <T> void reverseStack(Stack<T> s) {
-		// TODO implement me
+		Stack<T> temp1 = new StackLinkedListBased<>();
+        Stack<T> temp2 = new StackLinkedListBased<>();
+
+       // Need to reverse it twice
+
+        while(!s.isEmpty()){
+            temp1.push(s.pop());
+        }
+
+        // Popping val from temp1 -> temp2 (Reverses again)
+        while(!temp1.isEmpty()){
+            temp2.push(temp1.pop());
+        }
+
+        // Restore data but reversed
+        while(!temp2.isEmpty()){
+            s.push(temp2.pop());
+        }
 	}
 
 	/**
@@ -61,8 +110,27 @@ public class TestingStack {
 	 * the same state as it was originally 
 	 */
 	public static <T> Stack<T> cloneStack(Stack<T> orig) {
-		// TODO implement me
-		return null;
+        Stack<T> cloned = new StackLinkedListBased<T>();
+        Stack<T> temp =  new StackLinkedListBased<T>();
+
+        // Pops from orig, pushes to temp
+        while(!orig.isEmpty()){
+            temp.push(orig.pop());
+        }
+
+        while (!temp.isEmpty()) {
+            T item = temp.pop();
+            cloned.push(item);
+            orig.push(item);
+        }
+
+        // Security check
+		if(cloned.isEmpty()){
+            return null;
+        }
+        else{
+            return cloned;
+        }
 	}
 
 
@@ -70,7 +138,22 @@ public class TestingStack {
 	 * swaps the content of s1 and s2
 	 */
 	public static <T> void swapStacks(Stack<T> s1, Stack<T> s2) {
-		// TODO implement me
+		Stack<T> temp1 = new  StackLinkedListBased<>();
+        Stack<T> temp2 = new  StackLinkedListBased<>();
+
+        while(!s1.isEmpty()){
+            temp1.push(s1.pop());
+        }
+
+        while(!s2.isEmpty()){
+            temp2.push(s2.pop());
+        }
+        while(!temp1.isEmpty()){
+            s1.push(temp1.pop());
+        }
+        while(!temp2.isEmpty()){
+            s2.push(temp2.pop());
+        }
 	}
 
 	public static void main(String[] args) {
@@ -80,14 +163,33 @@ public class TestingStack {
 		s.push(3);	// s = [1,2,3]
 		s.push(4);	// s = [1,2,3,4]
 		s.push(5);	// s = [1,2,3,4]
-		
-		System.out.println("printing s: ");
-		printStack(s);
+
+        Stack<Integer> x = new StackArrayBased<Integer>();
+        x.push(1);
+        x.push(2);
+        x.push(3);
+        x.push(7);
+        x.push(5);
+
 		System.out.println();
 
-		// add tests for each of the methods you implement:
-		// areEqual()
-		// reverseStack()
+        if(areEqual(x, s)) {
+            System.out.println("Are Equal\n");
+        }
+        else{
+            System.out.println("Are Not Equal\n");
+        }
+
+        System.out.println("Current Stack: ");
+        printStack(s);
+        System.out.println("Reversed: ");
+        reverseStack(s);
+        printStack(s);
+
+        System.out.println("Clone Stack: ");
+        Stack<Integer> y = cloneStack(s);
+        printStack(y);
+
 		// cloneStack()
 		// swapStacks()
 	}

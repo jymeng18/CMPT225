@@ -12,6 +12,9 @@ import java.util.LinkedList;
 
 public class MyLinkedList<T> {
 
+    private LinkedListNode head;
+    private int length;
+
 	class LinkedListNode {
 
 		T data;
@@ -32,9 +35,7 @@ public class MyLinkedList<T> {
 		}
 	}
 
-	private LinkedListNode head;
-	private int length;
-
+    // Constructor
 	public MyLinkedList() {
 		this.head = null;
 		this.length = 0;
