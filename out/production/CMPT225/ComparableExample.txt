@@ -1,4 +1,0 @@
-1. The class Student implements the Comparable interface(from java.lang).
-2. The class Lake implements the Comparable Interface.
-3. Can you modify the compareTo methods inside these classes to compare based on a different attributes
-    (for example instead of area, use name to compare Lakes)
