@@ -2,13 +2,30 @@ package assignment2;
 
 import basicdatastructures.stack.*;
 
+import java.util.NoSuchElementException;
+
 public class MyStackOperations {
 	/**
 	 * Returns the number of elements in s.
 	 */
 	public static <T> int size(Stack<T> s) {
-		// TODO implement me
-		return -1;
+        // Make sure object of type Stack is not null
+        assert s != null;
+
+		Stack<T> temp1 = new StackLinkedListBased<>();
+        int count = 0;
+
+        while(!s.isEmpty()){
+            temp1.push(s.pop());
+            count++;
+        }
+
+        // Restore original data
+        while(!temp1.isEmpty()){
+            s.push(temp1.pop());
+        }
+
+		return count;
 	}
 
 	/**
@@ -17,15 +34,47 @@ public class MyStackOperations {
      * If s is empty, the method throws NoSuchElementException.
 	 */
     public static <T> T removeBottom(Stack<T> s) {
-		// TODO implement me
-		return null;
+		if(s.isEmpty()){
+            throw new NoSuchElementException("Stack is empty");
+        }
+
+        // Pop all elements in the stack except for the bottom one
+        Stack<T> temp = new StackLinkedListBased<>();
+        while(size(s) > 1){
+            temp.push(s.pop()); // temp holds it in reverse order
+        }
+        T bottom = s.pop(); // 'bottom' value
+
+        // Restore order in 's'
+        while(!temp.isEmpty()){
+            s.push(temp.pop());
+        }
+		return bottom;
 	}
 
 	/**
 	 * Reverses the order of the elements in s.
 	 */
 	public static <T> void reverse(Stack<T> s) {
-		// TODO implement me
+        assert s != null;
+
+		Stack<T> temp1 = new StackLinkedListBased<>();
+        Stack<T> temp2 = new StackLinkedListBased<>();
+
+        // Reverse order, store in temp1
+        while(!s.isEmpty()){
+            temp1.push(s.pop());
+        }
+
+        // Make order normal and store in temp2
+        while(!temp1.isEmpty()){
+            temp2.push(temp1.pop());
+        }
+
+        // Restore back in 's' with reversed order
+        while(!temp2.isEmpty()){
+            s.push(temp2.pop());
+        }
 	}
 
 	/**
@@ -33,7 +82,25 @@ public class MyStackOperations {
 	 * the queues are compared using == operator.
 	 */
 	public static <T> boolean areEqual(Stack<T> s1, Stack<T> s2) {
-		// TODO implement me
-		return false;
+		if(s1 == null || s2 == null){
+            return false;
+        }
+        if(s1.isEmpty() && s2.isEmpty()){
+            return true; // empty stacks are the same
+        }
+
+		if(size(s1) != size(s2)){
+            return false; // size must be matching
+        }
+        while(!(s1.isEmpty() && s2.isEmpty())){
+            T value1 = s1.pop();
+            T value2 = s2.pop();
+
+            // Comparing primitive of type ints
+            if(value1 != value2){
+                return false;
+            }
+        }
+        return true;
 	}
 }
