@@ -92,15 +92,30 @@ public class MyStackOperations {
 		if(size(s1) != size(s2)){
             return false; // size must be matching
         }
-        while(!(s1.isEmpty() && s2.isEmpty())){
+        Stack<T> temp1 = new StackLinkedListBased<>();
+        Stack<T> temp2 = new StackLinkedListBased<>();
+        boolean isEqual = true;
+
+        while(!s1.isEmpty()){
             T value1 = s1.pop();
             T value2 = s2.pop();
 
-            // Comparing primitive of type ints
+            temp1.push(value1);
+            temp2.push(value2);
+
             if(value1 != value2){
-                return false;
+                isEqual = false;
             }
         }
-        return true;
+
+        // Restore both stacks
+        while(!temp1.isEmpty()){
+            s1.push(temp1.pop());
+        }
+        while(!temp2.isEmpty()){
+            s2.push(temp2.pop());
+        }
+
+        return isEqual;
 	}
 }
