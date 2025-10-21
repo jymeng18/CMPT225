@@ -93,10 +93,10 @@ class BinaryTree<T extends Comparable<T>> {
             if(currentNode.data.compareTo(target) == 0){
                 return currentNode;
             }
-            if(currentNode.data.compareTo(target) < 0){
+            else if (currentNode.data.compareTo(target) < 0){
                 currentNode = currentNode.rightChild;
             }
-            if(currentNode.data.compareTo(target) > 0){
+            else if(currentNode.data.compareTo(target) > 0){
                 currentNode = currentNode.leftChild;
             }
         }
@@ -120,6 +120,29 @@ class BinaryTree<T extends Comparable<T>> {
             T rightMin = findMinBT(node.rightChild);
             if(rightMin.compareTo(min) < 0){
                 min = rightMin;
+            }
+        }
+        return min;
+    }
+
+    public T findMinBTIter(Node<T> node){
+        if(node == null){
+            return null;
+        }
+        T min = node.data; // root
+        Queue<Node<T>> queue = new LinkedList<>();
+        queue.offer(node);
+        while(!queue.isEmpty()){
+            Node<T> curr = queue.poll();
+            if(curr.data.compareTo(min) < 0){
+                min = curr.data;
+            }
+
+            if(curr.leftChild != null){
+                queue.offer(curr.leftChild);
+            }
+            if(curr.rightChild != null){
+                queue.offer(curr.rightChild);
             }
         }
         return min;
