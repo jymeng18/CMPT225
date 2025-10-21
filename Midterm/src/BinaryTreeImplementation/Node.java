@@ -1,6 +1,9 @@
 package BinaryTreeImplementation;
-
+import java.lang.Math.*;
 import java.util.*;
+
+import static java.lang.Math.max;
+
 
 class Node<T extends Comparable<T>> {
     T data;
@@ -101,6 +104,54 @@ class BinaryTree<T extends Comparable<T>> {
         return null;
     }
 
+    public T findMinBT(Node<T> node){
+        if(node.leftChild == null && node.rightChild == null){
+            return node.data;
+        }
+        T min = node.data;
+
+        if(node.leftChild != null){
+            T leftMin = findMinBT(node.leftChild);
+            if(leftMin.compareTo(min) < 0){
+                min = leftMin;
+            }
+        }
+        if(node.rightChild != null){
+            T rightMin = findMinBT(node.rightChild);
+            if(rightMin.compareTo(min) < 0){
+                min = rightMin;
+            }
+        }
+        return min;
+    }
+
+    public T findMinBST(Node<T> node){
+        if(node == null){
+            return null;
+        }
+        if(node.leftChild == null && node.rightChild == null){
+            return node.data;
+        }
+        return findMinBST(node.leftChild);
+    }
+
+    public Integer findSum(Node<Integer> root){
+        if(root == null){
+            return 0;
+        }
+        return root.data + findSum(root.leftChild) + findSum(root.rightChild);
+    }
+
+    public Integer findNumLeaves(Node<Integer> root){
+        if(root == null){
+            return 0;
+        }
+        if(root.leftChild == null && root.rightChild == null){
+            return 1;
+        }
+        return findNumLeaves(root.rightChild) + findNumLeaves(root.leftChild);
+    }
+
     public Node<T> insert(Node<T> root, T data){
         if(root == null){
             root = new Node<>(data);
@@ -145,12 +196,20 @@ class BinaryTree<T extends Comparable<T>> {
         if(root == null){
             return 0;
         }
-        if(root.leftChild == null && root.rightChild == null){
-            return 1;
-        }
-
         int sum = 1 + sizeRec(root.leftChild) + sizeRec(root.rightChild);
         return sum;
+    }
+
+    public Integer getDepth(Node<T> node){
+        if(node == null){
+            return null;
+        }
+        int depth = 0;
+        while(node.parent != null){
+            node = node.parent;
+            depth++;
+        }
+        return depth;
     }
 
     public int sizeIteratively(Node<T> root){
@@ -224,12 +283,9 @@ class BinaryTree<T extends Comparable<T>> {
 
     public Integer getHeightRec(Node<T> node){
         if(node == null){
-            return 0;
+            return -1;
         }
-        if(node.leftChild == null && node.rightChild == null){
-            return 1;
-        }
-        return 1 + getHeightRec(node.leftChild) + getHeightRec(node.rightChild);
+        return 1 + max(getHeightRec(node.leftChild), getHeightRec(node.rightChild));
     }
 
     public Integer getHeightIter(){
@@ -291,6 +347,32 @@ class BinaryTree<T extends Comparable<T>> {
             if(cur.leftChild != null){
                 stack.push(cur.leftChild);
             }
+        }
+    }
+
+    public void inOrderRec(Node<T> root){
+        if(root == null){
+            return;
+        }
+        inOrderRec(root.leftChild);
+        System.out.println(root.data);
+        inOrderRec(root.rightChild);
+        return;
+    }
+
+    public void inOrderIter(){
+        Stack<Node<T>> stack = new Stack<>();
+        Node<T> curr = root;
+
+        while(!stack.isEmpty() || curr != null){
+            while(curr != null){
+                stack.push(curr);
+                curr = curr.leftChild;
+            }
+            curr = stack.pop();
+            System.out.println(curr.data);
+
+            curr = curr.rightChild;
         }
     }
 
