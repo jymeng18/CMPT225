@@ -53,6 +53,7 @@ public class TestingStack {
             T item1 = s1.pop();
             T item2 = s2.pop();
 
+
             // Temporarily storing the value to easily restore it
             temp1.push(item1);
             temp2.push(item2);

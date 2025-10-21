@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import binarytree.*;
 
 public class BinaryTreeMain2 {
-	public static BinaryTree<Integer> createTree() {
+	public static test.BinaryTree<Integer> createTree() {
 		// creating the tree
 		//       5
 		//      / \
@@ -18,11 +18,11 @@ public class BinaryTreeMain2 {
 
 		BTNode<Integer> node5 = new BTNode<Integer>(5, node2, node6, null);
 
-		return new BinaryTree<Integer>(node5);
+		return new test.BinaryTree<Integer>(node5);
 	}
 
 	public static void main(String[] args) {
-		BinaryTree<Integer> tree = createTree();
+		test.BinaryTree<Integer> tree = createTree();
 		System.out.println("Printing prePrder: ");
 		tree.printPreOrder();
 

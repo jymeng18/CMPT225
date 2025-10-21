@@ -51,7 +51,7 @@ public class ComparePolyTime {
 
 	public static void main(String[] args) {
 
-		int n = 1000;
+		int n = 10000;
 		long start1 = System.currentTimeMillis();
 		linearTime(n);
 		long end1 = System.currentTimeMillis();

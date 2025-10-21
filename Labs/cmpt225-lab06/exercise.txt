@@ -1,0 +1,19 @@
+The topics of today's lab are:
+- recursion
+- binary trees
+
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+1. In MergeSort.java understand well the method mergeSortIterative
+
+2. In BinaryTree.java
+a) implement the method numberOfLeaves() - the method returns the number of leaves
+b) implement the method clone() - creates a copy of this
+c) implement the method equals(Object obj) - that checks if obj has the same tree structure as this with the same data.
+d) implement the method listOfAllItems()() - that returns the list of all items in the tree
+e) implement the method heightIterative() - it computes the height of the tree without using recursion
+
+- Write test cases to check that your methods are implemented correctly
+

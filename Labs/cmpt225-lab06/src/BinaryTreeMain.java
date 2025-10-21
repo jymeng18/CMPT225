@@ -1,7 +1,7 @@
 import binarytree.*;
 
 public class BinaryTreeMain {
-	public static test.BinaryTree<Integer> createTree() {
+	public static BinaryTree<Integer> createTree() {
 		// creating the tree
 		//       5
 		//      / \
@@ -24,16 +24,13 @@ public class BinaryTreeMain {
 		BTNode<Integer> node8 = new BTNode<Integer>(8, null, null, node6);
 		node6.setRightChild(node8);
 
-		return new test.BinaryTree<Integer>(node5);
+		return new BinaryTree<Integer>(node5);
 	}
 
 	public static void main(String[] args) {
-		test.BinaryTree<Integer> tree = createTree();
+		BinaryTree<Integer> tree = createTree();
 		System.out.println("size = " + tree.size());
-		System.out.println("Preorder: ");
-		tree.preOrderIterative();
-		System.out.println("Inorder: ");
-		tree.inOrder();
+		System.out.println("size = " + tree.sizeIterative());
 	}
 
 }
