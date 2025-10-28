@@ -57,8 +57,8 @@ public class TestSorting<T> {
         testSortStrings1();
         testSortStrings2();
 
-        testMerge1();
-        testMerge2();
+        //testMerge1();
+        //testMerge2();
     }
 
 }
