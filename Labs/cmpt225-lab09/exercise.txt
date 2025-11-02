@@ -1,0 +1,11 @@
+The topics of today's lab are:
+- heaps
+
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+
+1) Read the provided Heaps.java
+2) Implement the method heapSort(). Note that heapSort is a static method
+3) Test your solution

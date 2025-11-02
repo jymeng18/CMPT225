@@ -1,0 +1,10 @@
+The topics of today's lab are:
+- AVL trees
+
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+Implement AVL trees using the algorithm we saw in class
+See also https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
+This is also part of your assignment 4

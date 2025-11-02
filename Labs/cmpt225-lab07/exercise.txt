@@ -1,0 +1,16 @@
+The topics of today's lab are:
+- binary search trees
+
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+Extend the implementation of BSTs to support the following operations:
+1) For each node store in the node the size of the subtree rooted at this node
+2) For each node store in the node the height of the subtree rooted at this node
+
+Write a method of the class BinarySearchTree that returns a sorted ArrayList with all elements of the tree.
+ArrayList<T> toSortedArray()
+
+
+Test all your methods

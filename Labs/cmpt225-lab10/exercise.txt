@@ -1,0 +1,18 @@
+The topics of today's lab are:
+- Selection algorithm 
+- Hashing
+
+
+*********************
+YOUR TASKS FOR TODAY
+*********************
+
+1) implement the O(n) time selection algorithm we saw in class.
+You may use the provided code as a starting point
+
+2) In FindSmallHash.java write a function that gets a String prefix,
+and returns a string that starts with prefix such that 
+the returned string has hashCode() < 1000
+
+3) In InverseHashString.java write a function that gets a number,
+and returns a string whose hashCode() is that number.
