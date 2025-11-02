@@ -1,5 +1,6 @@
 package sorting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -38,25 +39,46 @@ public class MySortingAlgs {
         }
     }
 
-    /**
-     * Helper function for sortStrings()
-     */
-    public static int sortStringCharCount(String s1, String s2){
-        if(s1.length() != s2.length()){
-            return s1.length() - s2.length();
-        }
-        return s1.compareTo(s2);
-    }
-
-
 	/**
 	 * Assumption arr[start...mid-1] is sorted and arr[mid...end] is sorted.
      * The function merges the two parts into a sorted subarray arr[start...end]
      * All elements outside arr[start...end] remain unchanged
 	 */
 	public static <T extends Comparable<T>> void merge(T[] arr, int start, int mid, int end) {
+        ArrayList<T> tempArr = new ArrayList<>();
+        int startPtr = start;
+        int midPtr = mid;
 
+        // Merge two sorted parts
+        while(startPtr < mid && midPtr <= end){
 
+            // Grab from first part
+            if(arr[startPtr].compareTo(arr[midPtr]) <= 0){
+                tempArr.add(arr[startPtr]);
+                startPtr++;
+            }
+
+            // Grab from second part
+            else{
+                tempArr.add(arr[midPtr]);
+                midPtr++;
+            }
+        }
+
+        // There's a chance there's left over data not counted
+        while(startPtr < mid){
+            tempArr.add(arr[startPtr]);
+            startPtr++;
+        }
+        while(midPtr <= end){
+            tempArr.add(arr[midPtr]);
+            midPtr++;
+        }
+
+        // Copy sorted & merged data back to source
+        for(int i = 0; i < tempArr.size(); i++){
+            arr[i + start] = tempArr.get(i);
+        }
 	}
 
 
