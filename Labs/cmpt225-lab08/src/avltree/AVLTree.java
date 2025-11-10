@@ -1,5 +1,7 @@
 package avltree;
 
+import java.util.NoSuchElementException;
+
 public class AVLTree<T extends Comparable<T>> {
 
 
@@ -21,8 +23,22 @@ public class AVLTree<T extends Comparable<T>> {
 	 * if item is not in the tree, throws NoSuchElementException
 	 */
 	public AVLNode<T> find(T item) {
-		// TODO implement me
-		return null;
+		AVLNode<T> curNode = getRoot();
+
+        while(curNode != null){
+            int cmpVal = item.compareTo(curNode.getData());
+            if(cmpVal == 0){
+                return curNode;
+            }
+            else if (cmpVal < 0) {
+                // Item is less then curNode, move left
+                curNode = curNode.getLeftChild();
+            }
+            else {
+                curNode = curNode.getRightChild();
+            }
+        }
+		throw new NoSuchElementException("Item is not in the list");
 	}
 
 	/**
