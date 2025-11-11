@@ -1,29 +1,44 @@
 package heap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
- * The MinMaxHeap class supports the following operations
- * - add: adds an item to the heap in O(log(n)) time
- * - getMin: returns the minimal element in the heap without modifying the heap in O(1) time
- * - getMax: returns the maximal element in the heap without modifying the heap in O(1) time
- * - removeMin: removes the minimal element in the heap and returns it in O(log(n)) time
- * - removeMax: removes the maximal element in the heap and returns it in O(log(n)) time
- * @param <T> the type of elements in this heap, which must implement Comparable
+ * the classHeap supports the following operations
+ * - add: adds an item to the heap
+ * - getMin: returns the minimal element in the heap without modifying the heap
+ * - getMax: returns the maximal element in the heap without modifying the heap
+ * - removeMin: removes the minimal element in the heap and returns it
+ * - removeMax: removes the maximal element in the heap and returns it
+ * @param <T>
  */
-public class MinMaxHeap<T extends Comparable<T>> {
+public class MinMaxHeap <T extends Comparable<T>> {
     private final List<T> heap;
 
     public MinMaxHeap() {
-        heap = new ArrayList<>();
+        this.heap = new ArrayList<>();
     }
 
     /**
-     * Adds item to the heap in O(log(n)) time
+     * Utility Methods
+     */
+    private int getParent(int idx){ return (idx-1) / 2;}
+
+    private int getLeftChild(int idx){ return 2 * idx + 1;}
+
+    private int getRightChild(int idx){ return 2 * idx + 2;}
+
+    private boolean hasChildren(int idx){ return 2 * idx + 1 < heap.size(); }
+
+    private boolean getLevel(int idx){
+        int level = (int) (Math.log(idx + 1) / Math.log(2));
+        return level % 2 == 0;
+    }
+
+    /**
+     * adds item to the heap in O(log(n)) time
      */
     public void add(T item) {
-        heap.add(item);
+        heap.add(item); // Add to end of list
         bubbleUp(heap.size() - 1);
     }
 
@@ -31,9 +46,7 @@ public class MinMaxHeap<T extends Comparable<T>> {
      * @return minimum of the heap in O(1) time
      */
     public T getMin() {
-        if (heap.isEmpty()) {
-            return null;
-        }
+        if(heap.isEmpty()){ return null; }
         return heap.getFirst();
     }
 
@@ -41,24 +54,16 @@ public class MinMaxHeap<T extends Comparable<T>> {
      * @return maximum of the heap in O(1) time
      */
     public T getMax() {
-        /*
-         * The max elements are from index 0-2
-         * Only look at those
-         */
+        if(heap.isEmpty()){ return null; }
 
-        if (heap.isEmpty()) {
-            return null;
-        }
-        if (heap.size() == 1) {
-            return heap.getFirst();
-        }
-        if (heap.size() == 2) {
-            return heap.get(1);
-        }
-        else {
-            if (heap.get(1).compareTo(heap.get(2)) > 0) {
+        // Only need to look at indexes 0 to 2 included
+        if(heap.size() == 1) { return heap.getFirst();}
+        if(heap.size() == 2){ return heap.get(1); }
+        else{
+            if(heap.get(1).compareTo(heap.get(2)) > 0){
                 return heap.get(1);
-            } else {
+            }
+            else{
                 return heap.get(2);
             }
         }
@@ -68,18 +73,18 @@ public class MinMaxHeap<T extends Comparable<T>> {
      * @return minimum of the heap in O(log(n)) time
      */
     public T removeMin() {
-        if (heap.isEmpty()) {
-            return null;
-        }
+        if(heap.isEmpty()){ return null; }
+
         T min = heap.getFirst();
-        if (heap.size() == 1) {
-            heap.removeFirst();
+        if(heap.size() == 1){
             return min;
         }
 
-        // Replace root with last element and remove last
+        // Remove last element in the heap and move it to front
         T last = heap.removeLast();
-        if (!heap.isEmpty()) {
+
+        // Restoring
+        if(!heap.isEmpty()){
             heap.set(0, last);
             bubbleDown(0);
         }
@@ -90,31 +95,259 @@ public class MinMaxHeap<T extends Comparable<T>> {
      * @return maximum of the heap in O(log(n)) time
      */
     public T removeMax() {
-        if (heap.isEmpty()) {
-            return null;
-        }
-        if (heap.size() == 1) {
+        if(heap.isEmpty()){ return null; }
+
+        int maxIdx;
+        if(heap.size() == 1){
             return heap.removeFirst();
         }
-
-        int maxIndex = 1;
-        if (heap.size() > 2 && heap.get(2).compareTo(heap.get(1)) > 0) {
-            maxIndex = 2;
+        else if(heap.size() == 2){
+            maxIdx = 1;
+        }
+        else{
+            if(heap.get(1).compareTo(heap.get(2)) < 0){
+                maxIdx = 2;
+            }
+            else{
+                maxIdx = 1;
+            }
         }
 
-        T max = heap.get(maxIndex);
-        if (heap.size() == 2) {
-            heap.remove(1);
-            return max;
-        }
-
-        // Replace max with last element and remove last
+        // Restore heap
+        T max = heap.get(maxIdx);
         T last = heap.removeLast();
-        if (maxIndex < heap.size()) {
-            heap.set(maxIndex, last);
-            bubbleDown(maxIndex);
+
+        // Heap is smaller now
+        if(maxIdx < heap.size()){
+            heap.set(maxIdx, last);
+            bubbleDown(maxIdx);
         }
         return max;
+    }
+
+
+    /**
+     * Checks which level we are on, (min/max),
+     * if min -> value at idx must be greater than its parent
+     * if max -> value at idx must be less than its parent
+     * If anything violates, swap, and bubbleUpMin/Max
+     */
+    public void bubbleUp(int idx){
+        // If root, no need to restore anything
+        if(idx == 0) return;
+
+        int parentIdx = getParent(idx);
+        boolean isLevelMin = getLevel(idx);
+
+        // Min level (0, 2, 4, 6, ...)
+        if(isLevelMin){
+            // Value must be less than its parent (Min level)
+            if(heap.get(idx).compareTo(heap.get(parentIdx)) > 0){
+                swapPlaces(idx, parentIdx);
+                bubbleUpMax(parentIdx);
+            }
+            else{
+                bubbleUpMin(idx);
+            }
+        }
+        // Max level (1, 3, 5, ..)
+        else{
+            // Value must be greater than its parent
+            if(heap.get(idx).compareTo(heap.get(parentIdx)) < 0){
+                swapPlaces(idx, parentIdx);
+                bubbleUpMin(parentIdx);
+            }
+            else{
+                bubbleUpMax(idx);
+            }
+        }
+    }
+
+    /**
+     * Comparing the value at idx to its grandparent value
+     * Precondition: the value at idx must not be at levels 0 or 1,
+     */
+    private void bubbleUpMin(int idx){
+        if(idx <= 2) return; // Base case
+        int grandparent = getParent(getParent(idx));
+        if(heap.get(idx).compareTo(heap.get(grandparent)) < 0){
+            swapPlaces(idx, grandparent);
+            bubbleUpMin(grandparent);
+        }
+    }
+    private void bubbleUpMax(int idx) {
+        if(idx <= 2) return; // Base case
+        int grandparent = getParent(getParent(idx));
+        if(heap.get(idx).compareTo(heap.get(grandparent)) > 0){
+            swapPlaces(idx, grandparent);
+            bubbleUpMax(grandparent);
+        }
+    }
+
+    /**
+     * Similar to bubbleUp, except we are now
+     * doing it reverse order
+     */
+    private void bubbleDown(int idx){
+        boolean isMin = getLevel(idx);
+        if(isMin){ // removeMin(..)
+            bubbleDownMin(idx);
+        }
+        else{ // removeMax(..)
+            bubbleDownMax(idx);
+        }
+    }
+
+    private void bubbleDownMin(int idx){
+        // If there is no children, cannot have grandchildren either, return
+        if(!hasChildren(idx)){
+            return;
+        }
+        int minIdx = getMinDesc(idx);
+        if(minIdx == -1) return;
+
+        boolean isGrandChild = idx < getParent(minIdx);
+
+        // If is grandchild
+        if(isGrandChild){
+            if(heap.get(minIdx).compareTo(heap.get(idx)) < 0){
+                swapPlaces(idx, minIdx);
+                // After swap, ensure minIdx is less than its parent
+                int parent = getParent(minIdx);
+                if(heap.get(minIdx).compareTo(heap.get(parent)) > 0){
+                    swapPlaces(minIdx, parent);
+                }
+                bubbleDownMin(minIdx);
+            }
+        }
+        // Is a child -> Child(Max lvl) is less then Parent(Min lvl)
+        else {
+            if (heap.get(minIdx).compareTo(heap.get(idx)) < 0) {
+                swapPlaces(idx, minIdx);
+            }
+        }
+    }
+
+    private void bubbleDownMax(int idx){
+        int maxIdx = getMaxDesc(idx);
+        if(maxIdx == -1) return;
+
+        boolean isGrandChild = idx < getParent(maxIdx);
+        if(isGrandChild){
+            if(heap.get(maxIdx).compareTo(heap.get(idx)) > 0){
+                swapPlaces(maxIdx, idx);
+                int parent = getParent(maxIdx);
+                if(heap.get(maxIdx).compareTo(heap.get(parent)) < 0){
+                    swapPlaces(maxIdx, parent);
+                }
+                bubbleDownMax(maxIdx);
+            }
+        }
+        else{ // Child
+            if(heap.get(maxIdx).compareTo(heap.get(idx)) > 0){
+                swapPlaces(maxIdx, idx);
+            }
+        }
+    }
+
+    /**
+     * Returns the index of the minimum element
+     * in the heap, can be a child or grandchild
+     */
+    private int getMinDesc(int idx){
+        int leftIdx = getLeftChild(idx);
+        int rightIdx = getRightChild(idx);
+
+        if(leftIdx >= heap.size()){ return -1; } // Bounds check
+
+        int minIdx = leftIdx;
+
+        // BFS for MinIdx
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(leftIdx);
+
+        if(rightIdx < heap.size()){
+            queue.offer(rightIdx);
+        }
+
+        // In min-max heap, max levels we need to traverse is 2 levels
+        int levelsToTraverse = 2;
+        int curLevel = 0;
+
+        while(!queue.isEmpty() && (curLevel < levelsToTraverse)){
+            int levelSize = queue.size();
+            for(int i = 0; i < levelSize; i++) {
+                Integer curIdx = queue.poll();
+                if(curIdx == null){
+                    continue; // Note: should not occur
+                }
+                // Update minimum idx
+                if (heap.get(curIdx).compareTo(heap.get(minIdx)) < 0) {
+                    minIdx = curIdx;
+                }
+
+                // Enqueue children for next level
+                int childLeftIdx = getLeftChild(curIdx);
+                int childRightIdx = getRightChild(curIdx);
+
+                if (childLeftIdx < heap.size()) {
+                    queue.offer(childLeftIdx);
+                }
+                if (childRightIdx < heap.size()) {
+                    queue.offer(childRightIdx);
+                }
+            }
+            curLevel++; // Move to next level
+        }
+        return minIdx;
+    }
+
+    private int getMaxDesc(int idx){
+        int leftIdx = getLeftChild(idx);
+        int rightIdx = getRightChild(idx);
+
+        if(leftIdx >= heap.size()){ return -1; }
+
+        int maxIdx = leftIdx;
+
+        // BFS for MaxIdx
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(leftIdx);
+
+        if(rightIdx < heap.size()){
+            queue.offer(rightIdx);
+        }
+
+        // In min-max heap, max levels we need to traverse is 2 levels
+        int levelsToTraverse = 2;
+        int curLevel = 0;
+
+        while(!queue.isEmpty() && (curLevel < levelsToTraverse)){
+            int levelSize = queue.size();
+            for(int i = 0; i < levelSize; i++) {
+                Integer curIdx = queue.poll();
+                if(curIdx == null){
+                    continue;
+                }
+                // Update minimum idx
+                if (heap.get(curIdx).compareTo(heap.get(maxIdx)) > 0) {
+                    maxIdx = curIdx;
+                }
+
+                // Enqueue children for next level
+                int childLeftIdx = getLeftChild(curIdx);
+                int childRightIdx = getRightChild(curIdx);
+
+                if (childLeftIdx < heap.size()) {
+                    queue.offer(childLeftIdx);
+                }
+                if (childRightIdx < heap.size()) {
+                    queue.offer(childRightIdx);
+                }
+            }
+            curLevel++;
+        }
+        return maxIdx;
     }
 
     /**
@@ -124,173 +357,9 @@ public class MinMaxHeap<T extends Comparable<T>> {
         return heap.size();
     }
 
-    // Private helper methods
-
-    private void bubbleUp(int index) {
-        if (index == 0) return;
-
-        int parent = (index - 1) / 2;
-        int level = getLevel(index);
-
-        if (level % 2 == 0) { // Min level
-            if (heap.get(index).compareTo(heap.get(parent)) > 0) {
-                swap(index, parent);
-                bubbleUpMax(parent);
-            } else {
-                bubbleUpMin(index);
-            }
-        } else { // Max level
-            if (heap.get(index).compareTo(heap.get(parent)) < 0) {
-                swap(index, parent);
-                bubbleUpMin(parent);
-            } else {
-                bubbleUpMax(index);
-            }
-        }
-    }
-
-    private void bubbleUpMin(int index) {
-        while (index > 2) {
-            int grandparent = ((index - 1) / 2 - 1) / 2;
-            if (heap.get(index).compareTo(heap.get(grandparent)) < 0) {
-                swap(index, grandparent);
-                index = grandparent;
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void bubbleUpMax(int index) {
-        while (index > 2) {
-            int grandparent = ((index - 1) / 2 - 1) / 2;
-            if (heap.get(index).compareTo(heap.get(grandparent)) > 0) {
-                swap(index, grandparent);
-                index = grandparent;
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void bubbleDown(int index) {
-        int level = getLevel(index);
-        if (level % 2 == 0) { // Min level
-            trickleDownMin(index);
-        } else { // Max level
-            trickleDownMax(index);
-        }
-    }
-
-    private void trickleDownMin(int index) {
-        if (hasChildren(index)) {
-            int m = getMinChildOrGrandchild(index);
-
-            // If m is a grandchild
-            if (getLevel(m) == getLevel(index) + 2) {
-                if (heap.get(m).compareTo(heap.get(index)) < 0) {
-                    swap(m, index);
-                    if (heap.get(m).compareTo(heap.get((m - 1) / 2)) > 0) {
-                        swap(m, (m - 1) / 2);
-                    }
-                    trickleDownMin(m);
-                }
-            }
-            // If m is a child
-            else if (heap.get(m).compareTo(heap.get(index)) < 0) {
-                swap(m, index);
-            }
-        }
-    }
-
-    private void trickleDownMax(int index) {
-        if (hasChildren(index)) {
-            int m = getMaxChildOrGrandchild(index);
-
-            // If m is a grandchild
-            if (getLevel(m) == getLevel(index) + 2) {
-                if (heap.get(m).compareTo(heap.get(index)) > 0) {
-                    swap(m, index);
-                    if (heap.get(m).compareTo(heap.get((m - 1) / 2)) < 0) {
-                        swap(m, (m - 1) / 2);
-                    }
-                    trickleDownMax(m);
-                }
-            }
-            // If m is a child
-            else if (heap.get(m).compareTo(heap.get(index)) > 0) {
-                swap(m, index);
-            }
-        }
-    }
-
-    private int getMinChildOrGrandchild(int index) {
-        int left = 2 * index + 1;
-        int right = 2 * index + 2;
-        int min = left;
-
-        // Check children
-        if (left < heap.size()) {
-            if (right < heap.size() && heap.get(right).compareTo(heap.get(left)) < 0) {
-                min = right;
-            }
-        }
-
-        // Check grandchildren
-        int leftLeft = 2 * left + 1;
-        int leftRight = 2 * left + 2;
-        int rightLeft = 2 * right + 1;
-        int rightRight = 2 * right + 2;
-
-        int[] grandchildren = {leftLeft, leftRight, rightLeft, rightRight};
-        for (int grandchild : grandchildren) {
-            if (grandchild < heap.size() && heap.get(grandchild).compareTo(heap.get(min)) < 0) {
-                min = grandchild;
-            }
-        }
-
-        return min;
-    }
-
-    private int getMaxChildOrGrandchild(int index) {
-        int left = 2 * index + 1;
-        int right = 2 * index + 2;
-        int max = left;
-
-        // Check children
-        if (left < heap.size()) {
-            if (right < heap.size() && heap.get(right).compareTo(heap.get(left)) > 0) {
-                max = right;
-            }
-        }
-
-        // Check grandchildren
-        int leftLeft = 2 * left + 1;
-        int leftRight = 2 * left + 2;
-        int rightLeft = 2 * right + 1;
-        int rightRight = 2 * right + 2;
-
-        int[] grandchildren = {leftLeft, leftRight, rightLeft, rightRight};
-        for (int grandchild : grandchildren) {
-            if (grandchild < heap.size() && heap.get(grandchild).compareTo(heap.get(max)) > 0) {
-                max = grandchild;
-            }
-        }
-
-        return max;
-    }
-
-    private boolean hasChildren(int index) {
-        return 2 * index + 1 < heap.size();
-    }
-
-    private int getLevel(int index) {
-        return (int) (Math.log(index + 1) / Math.log(2));
-    }
-
-    private void swap(int i, int j) {
-        T temp = heap.get(i);
+    private void swapPlaces(int i, int j){
+        T tmp = heap.get(i);
         heap.set(i, heap.get(j));
-        heap.set(j, temp);
+        heap.set(j, tmp);
     }
 }
