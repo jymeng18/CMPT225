@@ -3,19 +3,18 @@ package avltree;
 import java.util.NoSuchElementException;
 
 public class AVLTree<T extends Comparable<T>> {
-
-
 	AVLNode<T> root;
 
 	/**
 	 * creates an empty AVL tree
 	 */
 	public AVLTree() {
+        this.root = null;
 	}
 	
 
 	public AVLNode<T> getRoot() {
-		return null;
+		return this.root;
 	}
 	
 	/**
@@ -31,7 +30,7 @@ public class AVLTree<T extends Comparable<T>> {
                 return curNode;
             }
             else if (cmpVal < 0) {
-                // Item is less then curNode, move left
+                // Item is less than curNode, move left
                 curNode = curNode.getLeftChild();
             }
             else {
@@ -46,8 +45,46 @@ public class AVLTree<T extends Comparable<T>> {
 	 * duplicates are allowed
 	 */
 	public AVLNode<T> insert(T item) {
-		// TODO implement me
-		return null;
+		// Create new node
+        AVLNode<T> newNode = new AVLNode<>(item);
+
+        // if empty tree
+        if(getRoot() == null){
+            root = newNode;
+            return root;
+        }
+
+        AVLNode<T> current = root;
+        AVLNode<T> parent = null;
+
+        while(current != null){
+            parent = current; // always saves previous value of current
+
+            // Insert left or right
+            int cmp = item.compareTo(current.getData());
+            if(cmp <= 0){
+                current = current.getLeftChild();
+            }
+            else{
+                current = current.getRightChild();
+            }
+        }
+
+        // Once current hits the end, insert
+        newNode.setParent(parent);
+        assert parent != null;
+        int cmpVal = item.compareTo(parent.getData());
+        if(cmpVal <= 0){
+            parent.setLeftChild(newNode);
+        }
+        else{
+            parent.setRightChild(newNode);
+        }
+
+        // May need rebalancing after insertion
+
+
+		return newNode;
 	}
 
 
@@ -58,6 +95,25 @@ public class AVLTree<T extends Comparable<T>> {
 	public void remove(T item) {
 		// TODO implement me
 	}
+    private int height(AVLNode<T> node){
+        if(node == null){ return -1; }
 
+        return 1 + Math.max(height(node.getLeftChild()), height(node.getRightChild()));
+    }
+
+
+    private int balanceFactor(AVLNode<T> node){
+        if(node == null){ return 0; }
+
+        return height(node.getLeftChild()) - height(node.getRightChild());
+    }
+
+    private void rebalance(AVLNode<T> node){
+        while(node != null){
+            int balance = balanceFactor(node);
+        }
+
+        return;
+    }
 
 }
